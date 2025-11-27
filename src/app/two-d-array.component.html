@@ -1,0 +1,47 @@
+<h2>2D масив — матриця 5×5</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div formArrayName="matrix" class="matrix-wrapper">
+    <div
+      class="matrix-row"
+      *ngFor="let row of matrix.controls; index as i"
+      [formArrayName]="i"
+    >
+      <div
+        class="matrix-cell"
+        *ngFor="let cell of rowAt(i).controls; index as j"
+      >
+        <input
+          type="number"
+          [formControlName]="j"
+          class="matrix-input"
+          placeholder="0"
+          [class.invalid]="cellAt(i, j).touched && cellAt(i, j).invalid"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <small>* заповніть усі 25 цілих значень</small>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" [disabled]="form.invalid">Знайти мінімум</button>
+    <button type="button" (click)="reset()">Очистити</button>
+  </div>
+</form>
+
+<div *ngIf="minValue() !== null" class="result">
+  <p>
+    Найменший елемент: <strong>{{ minValue() }}</strong>
+  </p>
+  <p>
+    Розташування (рядок, стовпчик):
+    <strong>{{ minRow() }}, {{ minCol() }}</strong>
+  </p>
+  <p>
+    Відносно правої діагоналі:
+    <strong>{{ relationText() }}</strong>
+  </p>
+</div>

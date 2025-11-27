@@ -1,219 +1,31 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<style>
-  :host {
-    --bright-blue: oklch(51.01% 0.274 263.83);
-    --electric-violet: oklch(53.18% 0.28 296.97);
-    --french-violet: oklch(47.66% 0.246 305.88);
-    --vivid-pink: oklch(69.02% 0.277 332.77);
-    --hot-red: oklch(61.42% 0.238 15.34);
-    --orange-red: oklch(63.32% 0.24 31.68);
-
-    --gray-900: oklch(19.37% 0.006 300.98);
-    --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
-
-    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-      180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-      90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --pill-accent: var(--bright-blue);
-
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1 {
-    font-size: 3.125rem;
-    color: var(--gray-900);
-    font-weight: 500;
-    line-height: 100%;
-    letter-spacing: -0.125rem;
-    margin: 0;
-    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol";
-  }
-
-  p {
-    margin: 0;
-    color: var(--gray-700);
-  }
-
-  main {
-    width: 100%;
-    min-height: 100%;
-  }
-
-  .headerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-</style>
-
-<main class="main">
-  <header class="headerContainer">
-    <h1>Лабораторна робота</h1>
-    <h2>Михайлюк В.О КН-32</h2>
-  </header>
-  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="content">
-    <fieldset>
-      <legend>Тип пристрою:</legend>
-
-      <div>
-        <input
-          type="radio"
-          id="phone"
-          name="drone"
-          value="phone"
-          [checked]="radioState() === 'phone'"
-          (change)="radioState.set('phone')"
-        />
-        <label for="phone">Телефон</label>
+<div class="app-root">
+  <header class="global-header">
+    <div class="brand">
+      <span class="logo">NG</span>
+      <div class="title-block">
+        <h1>Лабораторні роботи з Angular</h1>
+        <p>Михайлюк В.О. КН-32</p>
       </div>
-
-      <div>
-        <input
-          type="radio"
-          id="mobile"
-          name="drone"
-          value="mobile"
-          [checked]="radioState() === 'mobile'"
-          (change)="radioState.set('mobile')"
-        />
-        <label for="mobile">Мобільний</label>
-      </div>
-    </fieldset>
-
-    <Label>
-      <span>к-сть функцій (k):</span>
-      <input
-        formControlName="funcCount"
-        placeholder="10"
-        type="number"
-        style="padding: 8px; border: 1px solid #ccc; border-radius: 8px"
-      />
-      <small
-        *ngIf="fc['funcCount'].touched && fc['funcCount'].invalid"
-        style="color: #b00020"
-      >
-        обов’язкове (мін. 1 символ)
-      </small>
-    </Label>
-
-    <!-- <label style="display: grid; gap: 6px">
-      <span>Ім’я</span>
-      <input
-        formControlName="name"
-        placeholder="Ваше ім’я"
-        style="padding: 8px; border: 1px solid #ccc; border-radius: 8px"
-      />
-      <small
-        *ngIf="fc['name'].touched && fc['name'].invalid"
-        style="color: #b00020"
-      >
-        Ім’я обов’язкове (мін. 2 символи)
-      </small>
-    </label> -->
-
-    <button
-      type="submit"
-      [disabled]="form.invalid"
-      style="
-        padding: 10px 14px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      "
-    >
-      Розрахувати
-    </button>
-
-    <button
-      type="button"
-      (click)="pushItem()"
-      [disabled]="form.invalid"
-      style="
-        padding: 10px 14px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      "
-    >
-      Додати у список
-    </button>
-
-    <button
-      type="reset"
-      (click)="reset()"
-      style="
-        padding: 10px 14px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      "
-    >
-      Очистити список
-    </button>
-
-    @if (radioState() === "mobile") {
-    <Label>
-      <span>Модель :</span>
-      <input placeholder="10" formControlName="model" />
-    </Label>
-    } @if(currentDevice()) {
-    <div>
-      <h2>{{ radioState() }}</h2>
-      <p>k: {{ currentDevice()?.k }}</p>
-      <p>Підсумкова вартість {{ currentDevice()?.cost }}</p>
     </div>
-    }
-  </form>
 
-  <table id="listTable" style="width: 100%; border-collapse: collapse">
-    <thead>
-      <tr style="border-bottom: 1px solid var(--border)">
-        <th style="text-align: left; padding: 10px">#</th>
-        <th style="text-align: left; padding: 10px">Тип</th>
-        <th style="text-align: left; padding: 10px">k</th>
-        <th style="text-align: left; padding: 10px">Модель</th>
-        <th style="text-align: left; padding: 10px">Вартість</th>
-      </tr>
-    </thead>
-    <tbody id="listBody">
-      @for (item of devicesCollection(); track $index) {
-      <tr style="border-top: 1px solid var(--border)">
-        <td style="padding: 10px">{{ $index + 1 }}</td>
-        <td style="padding: 10px">{{ item.type }}</td>
-        <td style="padding: 10px">{{ item.k }}</td>
-        <td style="padding: 10px">{{ item.model }}</td>
-        <td style="padding: 10px">{{ item.cost }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
-</main>
+    <nav class="main-nav">
+      <a
+        routerLink="/lab4"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        ЛР4: Телефони
+      </a>
+      <a routerLink="/array-1d" routerLinkActive="active-link">
+        ЛР5: 1D масив
+      </a>
+      <a routerLink="/array-2d" routerLinkActive="active-link">
+        ЛР5: 2D масив
+      </a>
+    </nav>
+  </header>
 
-<router-outlet />
+  <main class="page-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

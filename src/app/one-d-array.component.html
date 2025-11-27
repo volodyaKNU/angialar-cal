@@ -1,0 +1,38 @@
+<h2>1D масив — температура за декаду листопада</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div formArrayName="temps" class="temps-grid">
+    <div *ngFor="let ctrl of temps.controls; index as i" class="temp-item">
+      <label>
+        День {{ i + 1 }}:
+        <input
+          type="number"
+          [formControlName]="i"
+          placeholder="0"
+          [class.invalid]="
+            getTempControl(i).touched && getTempControl(i).invalid
+          "
+        />
+      </label>
+
+      <small
+        *ngIf="getTempControl(i).touched && getTempControl(i).invalid"
+        class="error"
+      >
+        Введіть значення
+      </small>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" [disabled]="form.invalid">Порахувати</button>
+    <button type="button" (click)="reset()">Очистити</button>
+  </div>
+</form>
+
+<div *ngIf="resultCount() !== null" class="result">
+  <p>
+    Кількість днів, коли температура була нижче -10°C:
+    <strong>{{ resultCount() }}</strong>
+  </p>
+</div>

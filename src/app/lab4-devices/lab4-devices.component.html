@@ -1,0 +1,110 @@
+<main class="main">
+  <header class="headerContainer">
+    <h1>Лабораторна робота 4</h1>
+    <h2>Михайлюк В.О КН-32</h2>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="content">
+    <fieldset>
+      <legend>Тип пристрою:</legend>
+
+      <div>
+        <input
+          type="radio"
+          id="phone"
+          name="device"
+          value="phone"
+          [checked]="radioState() === 'phone'"
+          (change)="radioState.set('phone')"
+        />
+        <label for="phone">Телефон</label>
+      </div>
+
+      <div>
+        <input
+          type="radio"
+          id="mobile"
+          name="device"
+          value="mobile"
+          [checked]="radioState() === 'mobile'"
+          (change)="radioState.set('mobile')"
+        />
+        <label for="mobile">Мобільний</label>
+      </div>
+    </fieldset>
+
+    <label>
+      <span>к-сть функцій (k):</span>
+      <input
+        formControlName="funcCount"
+        placeholder="10"
+        type="number"
+        style="padding: 8px; border: 1px solid #ccc; border-radius: 8px"
+      />
+      <small
+        *ngIf="fc['funcCount'].touched && fc['funcCount'].invalid"
+        style="color: #b00020"
+      >
+        обов’язкове (мін. значення 1)
+      </small>
+    </label>
+
+    @if (radioState() === "mobile") {
+    <label>
+      <span>Модель :</span>
+      <input
+        placeholder="Модель"
+        formControlName="model"
+        style="padding: 8px; border: 1px solid #ccc; border-radius: 8px"
+      />
+      <small
+        *ngIf="fc['model'].touched && fc['model'].invalid"
+        style="color: #b00020"
+      >
+        мін. 2 символи
+      </small>
+    </label>
+    }
+
+    <div class="buttons">
+      <button type="submit" [disabled]="form.invalid">Розрахувати</button>
+
+      <button type="button" (click)="pushItem()" [disabled]="form.invalid">
+        Додати у список
+      </button>
+
+      <button type="button" (click)="reset()">Очистити список</button>
+    </div>
+
+    @if (currentDevice()) {
+    <div class="current-device">
+      <h3>Обраний пристрій ({{ radioState() }})</h3>
+      <p>k: {{ currentDevice()?.k }}</p>
+      <p>Підсумкова вартість: {{ currentDevice()?.cost }}</p>
+    </div>
+    }
+  </form>
+
+  <table id="listTable" style="width: 100%; border-collapse: collapse">
+    <thead>
+      <tr style="border-bottom: 1px solid var(--gray-400)">
+        <th style="text-align: left; padding: 10px">#</th>
+        <th style="text-align: left; padding: 10px">Тип</th>
+        <th style="text-align: left; padding: 10px">k</th>
+        <th style="text-align: left; padding: 10px">Модель</th>
+        <th style="text-align: left; padding: 10px">Вартість</th>
+      </tr>
+    </thead>
+    <tbody id="listBody">
+      @for (item of devicesCollection(); track $index) {
+      <tr style="border-top: 1px solid var(--gray-400)">
+        <td style="padding: 10px">{{ $index + 1 }}</td>
+        <td style="padding: 10px">{{ item.type }}</td>
+        <td style="padding: 10px">{{ item.k }}</td>
+        <td style="padding: 10px">{{ item.model }}</td>
+        <td style="padding: 10px">{{ item.cost }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</main>
